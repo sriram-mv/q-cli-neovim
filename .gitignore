@@ -1,0 +1,15 @@
+# Vim/Neovim
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files (optional)
+test_*
+*.test.lua
+
+# Logs
+*.log
