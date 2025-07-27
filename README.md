@@ -1,7 +1,7 @@
 <div align="center">
 
 # q-cli-neovim
-##### Get the power of Q CLI in your Neovim!
+##### Get the power of Amazon Q Developer CLI in your Neovim!
 
 [![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)
 [![Neovim](https://img.shields.io/badge/Neovim%200.9+-green.svg?style=for-the-badge&logo=neovim)](https://neovim.io)
