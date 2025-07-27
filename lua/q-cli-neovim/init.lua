@@ -5,8 +5,7 @@ local M = {}
 
 -- Default configuration
 local DEFAULT_CONFIG = {
-  keymap = '<leader>tq',
-  trust_all_tools = true,
+  trust_all_tools = false,  -- Disable --trust-all-tools flag by default for security
   startup_timeout = 3000,
 }
 
@@ -61,11 +60,6 @@ end
 --- @return boolean valid, string? error_message
 function utils.validate_config(config)
   local validations = {
-    {
-      field = 'keymap',
-      check = function(val) return val == nil or type(val) == 'string' end,
-      message = 'keymap must be a string'
-    },
     {
       field = 'trust_all_tools',
       check = function(val) return val == nil or type(val) == 'boolean' end,
@@ -334,12 +328,6 @@ function M.setup(opts)
   state.config = config
   state.initialized = true
   
-  -- Set up keymap
-  vim.keymap.set('n', config.keymap, M.toggle, { 
-    desc = 'Toggle Q CLI popup',
-    silent = true,
-  })
-  
   -- Create user commands
   local commands = {
     { name = 'QToggle', func = M.toggle, desc = 'Toggle Q CLI popup' },
@@ -358,10 +346,9 @@ function M.setup(opts)
   
   vim.notify(
     string.format(
-      'Q CLI plugin loaded %s (startup timeout: %.1fs):\n  %s - Open Q CLI\n  %s d - Close popup',
+      'Q CLI plugin loaded %s (startup timeout: %.1fs)\n  Use :QToggle or set your own keymaps\n  %s d - Close popup',
       trust_status,
       timeout_sec,
-      config.keymap,
       prefix_key
     ),
     vim.log.levels.INFO

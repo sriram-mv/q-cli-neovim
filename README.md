@@ -9,6 +9,7 @@ A lean and mean Neovim plugin that provides seamless integration with Amazon Q C
 - **Dynamic Prefix Detection**: Automatically detects your tmux prefix key
 - **Session Persistence**: Sessions survive popup closes - reconnect with full history
 - **Simple & Reliable**: Minimal dependencies, maximum reliability
+- **Flexible Keymaps**: No forced keymaps - set your own preferences
 
 ## 📋 Requirements
 
@@ -26,10 +27,12 @@ A lean and mean Neovim plugin that provides seamless integration with Amazon Q C
   'sriram-mv/q-cli-neovim',
   config = function()
     require('q-cli-neovim').setup()
+    
+    -- Set your preferred keymaps
+    vim.keymap.set('n', '<leader>tq', '<cmd>QToggle<cr>', { desc = 'Toggle Q CLI' })
+    vim.keymap.set('n', '<leader>qd', '<cmd>QDebug<cr>', { desc = 'Debug Q CLI session' })
+    vim.keymap.set('n', '<leader>qc', '<cmd>QCleanup<cr>', { desc = 'Clean up Q CLI sessions' })
   end,
-  keys = {
-    { '<leader>tq', '<cmd>QToggle<cr>', desc = 'Toggle Q CLI' },
-  },
 }
 ```
 
@@ -40,6 +43,11 @@ use {
   'sriram-mv/q-cli-neovim',
   config = function()
     require('q-cli-neovim').setup()
+    
+    -- Set your preferred keymaps
+    vim.keymap.set('n', '<leader>tq', '<cmd>QToggle<cr>', { desc = 'Toggle Q CLI' })
+    vim.keymap.set('n', '<leader>qd', '<cmd>QDebug<cr>', { desc = 'Debug Q CLI session' })
+    vim.keymap.set('n', '<leader>qc', '<cmd>QCleanup<cr>', { desc = 'Clean up Q CLI sessions' })
   end
 }
 ```
@@ -50,29 +58,31 @@ use {
 Plug 'sriram-mv/q-cli-neovim'
 
 " Add to your init.vim/init.lua
-lua require('q-cli-neovim').setup()
+lua << EOF
+require('q-cli-neovim').setup()
+
+-- Set your preferred keymaps
+vim.keymap.set('n', '<leader>tq', '<cmd>QToggle<cr>', { desc = 'Toggle Q CLI' })
+vim.keymap.set('n', '<leader>qd', '<cmd>QDebug<cr>', { desc = 'Debug Q CLI session' })
+vim.keymap.set('n', '<leader>qc', '<cmd>QCleanup<cr>', { desc = 'Clean up Q CLI sessions' })
+EOF
 ```
 
 ## 🚀 Usage
 
 ### Basic Commands
 
-- `<leader>tq` - Toggle Q CLI popup (creates new session or connects to existing)
-- `[Your Prefix] + d` - Close popup (keeps session alive)
-
-### User Commands
-
-- `:QToggle` - Toggle Q CLI popup
+- `:QToggle` - Toggle Q CLI popup (creates new session or connects to existing)
 - `:QDebug` - Show session information
 - `:QCleanup` - Clean up orphaned sessions
 
 ### Workflow
 
 1. Open any file in Neovim (inside tmux)
-2. Press `<leader>tq` to open Q CLI popup
+2. Run `:QToggle` (or your custom keymap) to open Q CLI popup
 3. Ask questions, get help with your code
 4. Press `[Your Prefix] + d` to close popup (session stays alive)
-5. Press `<leader>tq` again to reconnect with full history
+5. Run `:QToggle` again to reconnect with full history
 
 ## ⚙️ Configuration
 
@@ -80,8 +90,7 @@ lua require('q-cli-neovim').setup()
 
 ```lua
 require('q-cli-neovim').setup({
-  keymap = '<leader>tq',        -- Key mapping to toggle Q CLI
-  trust_all_tools = false,      -- Disable --trust-all-tools flag (default: false)
+  trust_all_tools = false,     -- Disable --trust-all-tools flag by default (more secure)
   startup_timeout = 3000,      -- Time to wait for Q CLI to start (milliseconds)
 })
 ```
@@ -89,28 +98,35 @@ require('q-cli-neovim').setup({
 ### Custom Configuration Examples
 
 ```lua
--- Custom keymap
-require('q-cli-neovim').setup({
-  keymap = '<C-q>',
-})
-
--- Enable --trust-all-tools for enhanced agentic operations
+-- Enable --trust-all-tools for faster workflow (less secure)
 require('q-cli-neovim').setup({
   trust_all_tools = true,
 })
 
--- Faster startup for lean setups.
--- If Q CLI seems unresponsive when opening, try increasing this value.
+-- Faster startup for quick machines
 require('q-cli-neovim').setup({
   startup_timeout = 1500,  -- 1.5 seconds
 })
 
 -- Full custom configuration
 require('q-cli-neovim').setup({
-  keymap = '<leader>qq',
-  trust_all_tools = false,
-  startup_timeout = 3000,  -- 4 seconds
+  trust_all_tools = true,   -- Enable for convenience
+  startup_timeout = 4000,   -- 4 seconds
 })
+```
+
+### Setting Up Keymaps
+
+The plugin doesn't set any keymaps by default. Set your own keymaps after setup:
+
+```lua
+-- Basic setup
+require('q-cli-neovim').setup()
+
+-- Set your preferred keymaps
+vim.keymap.set('n', '<leader>tq', '<cmd>QToggle<cr>', { desc = 'Toggle Q CLI' })
+vim.keymap.set('n', '<leader>qd', '<cmd>QDebug<cr>', { desc = 'Debug Q CLI session' })
+vim.keymap.set('n', '<leader>qc', '<cmd>QCleanup<cr>', { desc = 'Clean up Q CLI sessions' })
 ```
 
 ### Configuration Notes
@@ -118,11 +134,20 @@ require('q-cli-neovim').setup({
 #### Security
 The `trust_all_tools` option controls whether Q CLI runs with the `--trust-all-tools` flag:
 
-- **`false` (default)**: Q CLI will not execute all tools without asking for confirmation
-- **`true`**: Q CLI will execute all tools without confirmation.
+- **`false` (default)**: Q CLI will prompt before executing any tools (more secure)
+- **`true`**: Q CLI will execute tools without asking for confirmation (less secure)
 
-For security-sensitive environments, consider setting `trust_all_tools = false`.
+For security-sensitive environments, keep the default `trust_all_tools = false`. For development environments where you want faster workflows, you can set `trust_all_tools = true`.
 
+#### Startup Timeout
+The `startup_timeout` option controls how long to wait for Q CLI to initialize:
+
+- **Default**: `3000` milliseconds (3 seconds)
+- **Fast machines**: Try `1500-2000` milliseconds
+- **Slow machines**: Try `4000-6000` milliseconds
+- **Network issues**: May need `5000+` milliseconds
+
+If Q CLI seems unresponsive when opening, try increasing this value.
 
 ## 🔧 How It Works
 
@@ -184,11 +209,18 @@ The plugin automatically detects and displays your prefix key.
 
 Contributions are welcome! Please feel free to submit issues and pull requests.
 
+### Development Setup
+
+1. Clone the repository
+2. Create a symlink to your Neovim config
+3. Test with different scenarios
+
 ## 📄 License
 
 MIT License - see LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
+- Inspired by telescope.nvim's smooth user experience
 - Built for the Amazon Q CLI ecosystem
 - Thanks to the Neovim and tmux communities
