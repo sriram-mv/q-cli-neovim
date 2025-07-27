@@ -80,7 +80,9 @@ lua require('q-cli-neovim').setup()
 
 ```lua
 require('q-cli-neovim').setup({
-  keymap = '<leader>tq',  -- Key mapping to toggle Q CLI
+  keymap = '<leader>tq',        -- Key mapping to toggle Q CLI
+  trust_all_tools = false,      -- Disable --trust-all-tools flag (default: false)
+  startup_timeout = 3000,      -- Time to wait for Q CLI to start (milliseconds)
 })
 ```
 
@@ -91,7 +93,36 @@ require('q-cli-neovim').setup({
 require('q-cli-neovim').setup({
   keymap = '<C-q>',
 })
+
+-- Enable --trust-all-tools for enhanced agentic operations
+require('q-cli-neovim').setup({
+  trust_all_tools = true,
+})
+
+-- Faster startup for lean setups.
+-- If Q CLI seems unresponsive when opening, try increasing this value.
+require('q-cli-neovim').setup({
+  startup_timeout = 1500,  -- 1.5 seconds
+})
+
+-- Full custom configuration
+require('q-cli-neovim').setup({
+  keymap = '<leader>qq',
+  trust_all_tools = false,
+  startup_timeout = 3000,  -- 4 seconds
+})
 ```
+
+### Configuration Notes
+
+#### Security
+The `trust_all_tools` option controls whether Q CLI runs with the `--trust-all-tools` flag:
+
+- **`false` (default)**: Q CLI will not execute all tools without asking for confirmation
+- **`true`**: Q CLI will execute all tools without confirmation.
+
+For security-sensitive environments, consider setting `trust_all_tools = false`.
+
 
 ## 🔧 How It Works
 
