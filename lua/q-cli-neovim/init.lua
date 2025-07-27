@@ -338,21 +338,6 @@ function M.setup(opts)
   for _, cmd in ipairs(commands) do
     vim.api.nvim_create_user_command(cmd.name, cmd.func, { desc = cmd.desc })
   end
-  
-  -- Show setup confirmation
-  local prefix_key = tmux.get_prefix()
-  local trust_status = config.trust_all_tools and 'with --trust-all-tools' or 'without --trust-all-tools'
-  local timeout_sec = config.startup_timeout / 1000
-  
-  vim.notify(
-    string.format(
-      'Q CLI plugin loaded %s (startup timeout: %.1fs)\n  Use :QToggle or set your own keymaps\n  %s d - Close popup',
-      trust_status,
-      timeout_sec,
-      prefix_key
-    ),
-    vim.log.levels.INFO
-  )
 end
 
 return M
