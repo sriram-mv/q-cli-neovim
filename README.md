@@ -12,7 +12,7 @@
 
 ## 🎬 Demo
 
-![Q CLI Neovim Demo](gifs/q-neovim-video.gif)
+![Q CLI Neovim Demo](gifs/neovim-q-cli.gif)
 
 ## ✨ Features
 
