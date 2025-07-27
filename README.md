@@ -1,6 +1,18 @@
-# q-cli.nvim
+<div align="center">
 
-A lean and mean Neovim plugin that provides seamless integration with Amazon Q CLI through tmux popups. Get the power of Amazon Q directly in your editor with a telescope-like experience.
+# q-cli-neovim
+##### Get the power of Q CLI in your Neovim!
+
+[![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)
+[![Neovim](https://img.shields.io/badge/Neovim%200.9+-green.svg?style=for-the-badge&logo=neovim)](https://neovim.io)
+[![tmux](https://img.shields.io/badge/tmux%203.0+-red.svg?style=for-the-badge&logo=tmux)](https://github.com/tmux/tmux)
+[![Amazon Q](https://img.shields.io/badge/Amazon%20Q%20CLI-orange.svg?style=for-the-badge&logo=amazon)](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html)
+
+</div>
+
+## 🎬 Demo
+
+![Q CLI Neovim Demo](gifs/q-neovim-video.gif)
 
 ## ✨ Features
 
